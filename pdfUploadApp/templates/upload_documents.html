@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %} Upload files{% endblock title %}
+
+{% block body %}
+<div class="container">
+  <div class="left-section">
+    <h2>Upload Source Document:</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ source_form.as_p }}
+      <button type="submit" name="source_document_form">Upload</button>
+    </form>
+    <h2>Uploaded Source Document:</h2>
+<ul>
+  {% for source_document in source_documents %}
+    <li><a href="{{ source_document.document.url }}" download>{{ source_document.document.name }}</a></li>
+  {% empty %}
+    <li>No source documents uploaded yet.</li>
+  {% endfor %}
+</ul>
+  </div>
+
+  <div class="gap-div">
+    <h2>Please choose an algorithm for analysing document:</h2>
+    <input type="checkbox" id="algo1" name="algo1">
+    <label for="algo1">Algorithm 1</label> <br>
+    <input type="checkbox" id="algo2" name="algo2">
+    <label for="algo2">Algorithm 2</label><br>
+    <input type="checkbox" id="algo3" name="algo3">
+    <label for="algo3">Algorithm 3</label> <br>
+    <a class="btn btn-secondary ml-2" href="/result/">Start Analysing</a>
+  </div>
+
+  <div class="right-section">
+    <h2>Upload Candidate Documents:</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ candidate_form.as_p }}
+      <button type="submit" name="candidate_document_form">Upload</button>
+    </form>
+    <h2>Uploaded Candidate Documents:</h2>
+<ul>
+  {% for candidate_document in candidate_documents %}
+    <li><a href="{{ candidate_document.document.url }}" download>{{ candidate_document.document.name }}</a></li>
+  {% empty %}
+    <li>No candidate documents uploaded yet.</li>
+  {% endfor %}
+</ul>
+  </div>
+</div>
+
+
+<style>
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-section,
+.right-section {
+  flex: 1;
+  height: 100%;
+}
+
+.left-section {
+  width: 500px;
+  background-color: #f1f1f1;
+}
+
+.right-section {
+  background-color: #ddd;
+}
+.gap-div {
+  width: 500px; /* Set the width of the div in the gap */
+  background-color: #ffffff; /* Set the background color of the div in the gap */
+  /* Add any other styling for the div in the gap */
+}
+
+</style>
+{% endblock %}
